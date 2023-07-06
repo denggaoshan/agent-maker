@@ -1,0 +1,16 @@
+[profile]
+name = 'Tom'
+router = '/chat'
+
+[llm]
+name = 'openai'
+api_key = '<your-openai-api-key>'
+
+[[plugins]]
+name = 'system'
+prompt = "You are a robot. You must answer questions."
+
+[[plugins]]
+name = 'domain-expert'
+domain = 'law'
+occupation = 'lawyer'
