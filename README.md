@@ -1,13 +1,12 @@
 # Agent Maker
-Quickly create an artificial intelligence robot.
+You can quickly create robots by simply writing some configuration files in toml format.
 
-# Requirement
-install requirement
+# Install Requirement
 ```
 pip install -r requirements.txt
 ```
 
-# How to make your own agent
+# Make Your Own Agent
 
 you can see agents/robot.toml:
 
@@ -57,3 +56,7 @@ You will get the response like:
 ```
 {"result":" Hi there! How may I help you?"}
 ```
+
+# Plugins
+
+You can use the plugin system to customize your robot. Currently, we offer some basic plugin functions, and more plugin support will be provided in the future.
