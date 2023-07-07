@@ -14,12 +14,11 @@ from plugins.base import Plugin
 
 TEMPLATE = """{system}
 
-The conversation format between you and a human are as follows:
 {template}
 
 Begin!
 {chat_history}.
-assitant:"""
+"""
 
 
 class Agent:
@@ -48,7 +47,7 @@ class Agent:
         return self.prompt.format(
             system=system,
             template=template,
-            chat_history=messages
+            chat_history=Message.to_str(messages)
         )
 
     @classmethod
@@ -87,13 +86,16 @@ class Agent:
         """Handle the request"""
         data = await request.json()
         messages = data['messages']
+        show_prompt = data.get('show_prompt', False)
         if isinstance(messages, list):
-            messages = '\n'.join(messages)
-
+            messages = Message.from_list(messages)
+        else:
+            messages = [Message.from_str(messages)]
         prompt = self._build_prompt(messages)
-        return {
-            "result": self._llm(prompt)
-        }
+        response = {"result": self._llm(prompt)}
+        if show_prompt:
+            response['prompt'] = prompt
+        return response
 
     @classmethod
     def build_from_toml(cls, filename: str):

@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Project 
-agents/test.toml
+agents/test*

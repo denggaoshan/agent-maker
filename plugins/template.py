@@ -1,7 +1,8 @@
-"""System plugin for adding system prompt.
-Usage:
+"""Template plugin for adding template prompt. The template prompt is a prompt that is added after the system prompt.
+Usually, the template prompt is used to give a standard format to the system prompt.
+Uasge:
 [[plugins]]
-name = 'system'
+name = 'template'
 prompt = (str)
 """
 from typing import List
@@ -12,9 +13,9 @@ from common import Message
 from plugins.base import Plugin
 
 
-class SystemPlugin(Plugin):
-    """System plugin for adding system prompt"""
-    name = 'system'
+class TemplatePlugin(Plugin):
+    """Template plugin for adding system prompt"""
+    name = 'template'
     def __init__(self, prompt) -> None:
         super().__init__()
         self._prompt = prompt
@@ -27,6 +28,6 @@ class SystemPlugin(Plugin):
         return cls(toml['prompt'])
 
     @override
-    def build_system_prompt(self, messages: List[Message]) -> List[Message]:
-        """Build system prompt"""
+    def build_template_prompt(self, messages: List[Message]) -> List[Message]:
+        """Build template prompt"""
         return [Message(content=self._prompt)]

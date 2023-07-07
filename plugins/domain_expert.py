@@ -1,4 +1,10 @@
-"""Domain expert plugin for adding domain expert prompt"""
+"""Domain expert plugin for adding domain expert prompt. Use this plugin to give a identity to the assistant.
+Usage:
+[[plugins]]
+name = 'domain-expert'
+domain = 'law'
+occupation = 'lawyer'
+"""
 from typing import List
 
 from overrides import override
