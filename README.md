@@ -8,30 +8,9 @@ pip install -r requirements.txt
 
 # Make Your Own Agent
 
-You can see agents/robot.toml:
+See: [Robot Demo](./agents/robot.toml).
 
-```
-[profile]
-name = 'Tom'
-router = '/chat'  # The router for your agent
-
-[llm]
-name = 'openai'
-api_key = '<your-openai-api-key>'  # Your OPENAI_API_KEY
-
-[[plugins]]  # Optional
-name = 'system'
-prompt = "You are a robot. You must answer questions."
-
-[[plugins]]  # Optional
-name = 'domain-expert'
-domain = 'law'
-occupation = 'lawyer'
-
-```
-
-You can create any number of robots, just put them all in the agents directory, and please use different routes.
-
+Once creating the configuration file in the [agent directory](./agents/). The API service for agnet will automatically start.
 
 # How to run
 
@@ -59,18 +38,24 @@ You will get the response like:
 
 # Plugins
 
-You can use the plugin system to customize your robot. Currently, we offer some basic plugin functions, and more plugin support will be provided in the future.
+You can use the plugin system to customize your robot. 
 
-## System
+Currently, we offer some basic plugin functions, and more plugin support will be provided in the future.
+
+## [System Plugin](./plugins/system.py)
 
 The system plugin can be used to customize the system settings of the robot, like:
 1. The identity of the robot
 2. The rules of the robot
 .....
 
-## Template
+## [Template Plugin](./plugins/template.py)
 
 The template plugin can be used to customize the conversation template of the robot, it will guide the robot to generate the response according to the template.
+
+## [Domain Expert Plugin](./plugins/domain_expert.py)
+
+Domain expert plugin for adding domain expert prompt. Use this plugin to give a identity to the assistant.
 
 ## Retriever Plugins
 
@@ -82,7 +67,7 @@ Retriever plugins will generate prompt via some data sources, like:
 
 Currently, we offer some basic retriever plugins, and more retriever plugins will be provided in the future.
 
-### Txt Retriever 
+### [Txt Retriever](./plugins/txt_retriever.py)
 
 This is a simple retriever plugin, it will generate prompt via txt file.
 
