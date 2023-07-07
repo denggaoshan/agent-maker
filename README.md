@@ -89,9 +89,9 @@ This is a simple retriever plugin, it will generate prompt via txt file.
 
 # Demo
 
-## Waiter
-
-curl --location 'http://127.0.0.1:5000/test/waiter' \
+## [Waiter Demo](./agents/waiter.toml)
+```
+curl --location 'http://127.0.0.1:5000/waiter' \
 --header 'Content-Type: application/json' \
 --data '{
     "messages": [
@@ -100,7 +100,10 @@ curl --location 'http://127.0.0.1:5000/test/waiter' \
         "Customer: Any recommand?"
     ]
 }'
+```
 
+```
 {
     "result": "Waiter: Our most popular dishes are Old Changsha Stinky Tofu, Ground Chili Pepper and Preserved Egg, Braised Pork Belly, Country-Style Stir-Fried Pork, Glutinous Rice Cakes, and Rice. Would you like to try any of these?"
 }
+```
