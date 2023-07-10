@@ -71,7 +71,7 @@ streamlit run web.py
 # 效果演示
 
 
-[demo](./docs/imgs/waiter_demo_cn.jpg)
+![demo](./docs/imgs/waiter_demo_cn.jpg)
 
 
 # 插件系统

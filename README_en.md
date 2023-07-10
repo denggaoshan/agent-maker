@@ -115,4 +115,4 @@ curl --location 'http://127.0.0.1:5000/test/waiter' \
     "result": "Waiter: Our most popular dishes are Old Changsha Stinky Tofu, Ground Chili Pepper and Preserved Egg, Braised Pork Belly, Country-Style Stir-Fried Pork, Glutinous Rice Cakes, and Rice. Would you like to try any of these?"
 }
 
-[demo](./docs/imgs/waiter_demo.jpg)
+![demo](./docs/imgs/waiter_demo.jpg)
