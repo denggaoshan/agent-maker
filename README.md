@@ -1,46 +1,49 @@
-# Agent Maker
-You can quickly create robots by simply writing some configuration files in toml format.
+[English](README_en.md) | [中文](README.md)
 
-# Install Requirement
+# Agent Maker
+您可以通过编写一些 toml 格式的配置文件来快速创建机器人。
+
+# 安装要求
 ```
 pip install -r requirements.txt
 ```
 
-# Make Your Own Agent
+如果你使用openai接口，则需要一个openai的api key， 需要写到agent的配置文件中
 
-You can see agents/robot.toml:
+# 制作您自己的机器人
+
+您可以查看 agents/robot.toml:
 
 ```
 [profile]
 name = 'Tom'
-router = '/chat'  # The router for your agent
+router = '/chat'  # 您的机器人的路由
 
 [llm]
 name = 'openai'
-api_key = '<your-openai-api-key>'  # Your OPENAI_API_KEY
+api_key = '<your-openai-api-key>'  # 您的 OPENAI_API_KEY
 
-[[plugins]]  # Optional
+[[plugins]]  # 可选的
 name = 'system'
 prompt = "You are a robot. You must answer questions."
 
-[[plugins]]  # Optional
+[[plugins]]  # 可选的
 name = 'domain-expert'
 domain = 'law'
 occupation = 'lawyer'
 
 ```
 
-You can create any number of robots, just put them all in the agents directory, and please use different routes.
+您可以创建任意数量的机器人，只需将它们全部放在 agents 目录中，并请使用不同的路由。
 
+# 如何用api模式运行
 
-# How to run
-
-You can run that to start the server:
+您可以运行以下命令来启动服务器：
 ```
 uvicorn main:app --reload --port 5000
 ```
 
-Then:
+然后：
 
 ```
 curl --location 'http://127.0.0.1:5000/chat' \
@@ -52,55 +55,62 @@ curl --location 'http://127.0.0.1:5000/chat' \
 }'
 ```
 
-You will get the response like:
+您将获得以下响应：
 ```
 {"result":" Hi there! How may I help you?"}
 ```
 
-# Plugins
+# 如何用web模式运行
 
-You can use the plugin system to customize your robot. Currently, we offer some basic plugin functions, and more plugin support will be provided in the future.
-
-## System
-
-The system plugin can be used to customize the system settings of the robot, like:
-1. The identity of the robot
-2. The rules of the robot
-.....
-
-## Template
-
-The template plugin can be used to customize the conversation template of the robot, it will guide the robot to generate the response according to the template.
-
-## Retriever Plugins
-
-Retriever plugins will generate prompt via some data sources, like:
-1. Txt file
-2. Database
-3. Html
-....
-
-Currently, we offer some basic retriever plugins, and more retriever plugins will be provided in the future.
-
-### Txt Retriever 
-
-This is a simple retriever plugin, it will generate prompt via txt file.
+```
+streamlit run web.py
+```
 
 
-# Demo
 
-## Waiter
+# 效果演示
 
-curl --location 'http://127.0.0.1:5000/test/waiter' \
---header 'Content-Type: application/json' \
---data '{
-    "messages": [
-        "Customer: Hi!",
-        "Waiter: Hi there! Welcome to Taste Xiang Chu Private Kitchen. Can I help you with anything?",
-        "Customer: Any recommand?"
-    ]
-}'
 
-{
-    "result": "Waiter: Our most popular dishes are Old Changsha Stinky Tofu, Ground Chili Pepper and Preserved Egg, Braised Pork Belly, Country-Style Stir-Fried Pork, Glutinous Rice Cakes, and Rice. Would you like to try any of these?"
-}
+[demo](./docs/imgs/waiter_demo_cn.jpg)
+
+
+# 插件系统
+
+您可以使用插件系统来自定义您的机器人。目前，我们提供一些基本的插件功能，并将在未来提供更多插件支持。
+
+
+
+## System插件
+
+
+系统插件可用于自定义机器人的系统设置，如：
+
+1.机器人的身份
+
+2.机器人的规则
+
+
+
+
+## Template插件
+
+
+
+模板插件可以用于自定义机器人的对话模板，它将引导机器人根据模板生成响应。
+
+
+
+## Retriever插件
+
+
+
+Retriever插件将通过一些数据源生成prompt，例如：
+
+1.Txt文件
+
+2.数据库
+
+
+
+目前，我们提供了一些基本的检索器插件，未来还会提供更多的检索器。
+
