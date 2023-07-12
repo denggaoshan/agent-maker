@@ -1,40 +1,35 @@
 [English](README_en.md) | [中文](README.md)
 
 # Agent Maker
-您可以通过编写一些 toml 格式的配置文件来快速创建机器人。
+本项目旨在
+1. 通过toml格式快速定义对话机器人，无须动手写代码。
+2. 提供丰富的插件组件，可以像搭积木一样组装成对话机器人。
+3. 提供调试工作台，可以在线debug
+
+# 说明
+
+我们目前不提供大模型服务，目前支持openai（需要科学上网）和azure接口，自己去弄api_key，或者自己搭建大模型服务然后接入进来。
 
 # 安装要求
 ```
 pip install -r requirements.txt
 ```
 
-如果你使用openai接口，则需要一个openai的api key， 需要写到agent的配置文件中
+# 开始制作第一个Agent
 
-# 制作您自己的机器人
-
-您可以查看 agents/robot.toml:
+[示例1](./agents/cn_robot.toml)
 
 ```
 [profile]
-name = 'Tom'
-router = '/chat'  # 您的机器人的路由
+name = '老李'
+router = '/li'
 
 [llm]
 name = 'openai'
-api_key = '<your-openai-api-key>'  # 您的 OPENAI_API_KEY
-
-[[plugins]]  # 可选的
-name = 'system'
-prompt = "You are a robot. You must answer questions."
-
-[[plugins]]  # 可选的
-name = 'domain-expert'
-domain = 'law'
-occupation = 'lawyer'
-
+api_key = '<your-openai-api-key>'  # 需要替换成你的api-key
 ```
 
-您可以创建任意数量的机器人，只需将它们全部放在 agents 目录中，并请使用不同的路由。
+您可以创建任意数量的机器人，只需将它们全部放在 agents 目录中，会自动生效，请使用不同的路由地址。
 
 # 如何用api模式运行
 
@@ -43,7 +38,6 @@ occupation = 'lawyer'
 uvicorn main:app --reload --port 5000
 ```
 
-然后：
 
 ```
 curl --location 'http://127.0.0.1:5000/chat' \
@@ -53,13 +47,10 @@ curl --location 'http://127.0.0.1:5000/chat' \
         "user: Hello"
     ]
 }'
-```
 
-您将获得以下响应：
-```
+Response:
 {"result":" Hi there! How may I help you?"}
 ```
-
 ![图片](./docs/imgs/api_demo.jpg)
 
 # 如何用web模式运行
@@ -68,13 +59,11 @@ curl --location 'http://127.0.0.1:5000/chat' \
 streamlit run web.py
 ```
 
-# 效果演示
-
 ![demo](./docs/imgs/waiter_demo_cn.jpg)
 
-# LLM系统
+# 接入LLM
 
-目前支持openai接口，以及azure的接口
+所有的Agent都需要底层的LLM模型驱动，目前支持openai接口，以及azure的接口
 
 ## OpenAI接口
 
@@ -89,9 +78,7 @@ streamlit run web.py
 您可以使用插件系统来自定义您的机器人。目前，我们提供一些基本的插件功能，并将在未来提供更多插件支持。
 
 
-
 ## System插件
-
 
 系统插件可用于自定义机器人的系统设置，如：
 
@@ -101,7 +88,6 @@ streamlit run web.py
 
 
 ## Template插件
-
 
 
 模板插件可以用于自定义机器人的对话模板，它将引导机器人根据模板生成响应。
@@ -116,7 +102,6 @@ streamlit run web.py
 ![回答](./docs/imgs/cn_charactor.jpg)
 
 ![回答](./docs/imgs/cn_charactor_gpt.jpg)
-
 
 
 ## Retriever插件
