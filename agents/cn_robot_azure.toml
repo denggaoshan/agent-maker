@@ -1,0 +1,16 @@
+[profile]
+name = '老李'
+router = '/laoli_cn'
+greeting = '你好，我是老李，你想和我聊点什么？'
+role_assistant = '老李'
+role_user = '用户'
+
+[llm]
+name = 'azure'
+api_version = '2023-03-15-preview'
+deployment_name = 'gpt-35-turbo'
+api_base = '<your api base>'
+api_key = '<your api key>'
+
+[[plugins]]
+name = 'character-common'

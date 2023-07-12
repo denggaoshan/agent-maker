@@ -21,10 +21,10 @@ if "agent" not in st.session_state or st.session_state.agent.config_path != f'./
     st.session_state.clear()
     st.session_state.agent = Agent.build_from_toml(f'./agents/{selected}.toml')
 
-st.title(f"💬 {st.session_state.agent.name}")
+    with open(st.session_state.agent.config_path, 'r', encoding='utf-8') as f:
+        st.sidebar.code(f.read())
 
-with open(st.session_state.agent.config_path, 'r', encoding='utf-8') as f:
-    st.sidebar.code(f.read())
+st.title(f"💬 {st.session_state.agent.name}")
 
 if "messages" not in st.session_state:
     msgs = []
@@ -41,7 +41,9 @@ if user_input := st.chat_input():
         Message(speaker=st.session_state.agent.role_user, content=user_input, is_user=True)
     )
     st.chat_message("user").write(user_input)
-    response = st.session_state.agent.chat(st.session_state.messages)
+    prompt, response = st.session_state.agent.chat(st.session_state.messages)
     msg = Message.from_str(response, is_user=False)
     st.session_state.messages.append(msg)
     st.chat_message("assistant").write(msg.content)
+    st.sidebar.title("Prompt")
+    st.sidebar.code(prompt)

@@ -2,23 +2,21 @@
 import importlib
 import inspect
 import os
-from typing import List
+from typing import List, Tuple
 
 from fastapi import Request
 from langchain import PromptTemplate
-from langchain.llms import OpenAI
+from langchain.llms import AzureOpenAI, BaseLLM, OpenAI
 import toml
 
 from common import Message
 from plugins.base import Plugin
 
 TEMPLATE = """{system}
-
 {template}
-
 Begin!
-{chat_history}.
-"""
+{chat_history}
+{role_assistant}:"""
 
 
 class Agent:
@@ -30,7 +28,7 @@ class Agent:
                  role_assistant: str = None,
                  role_user: str = None,
                  greeting: str = None,
-                 llm = None,
+                 llm: BaseLLM = None,
                  plugins: list = None):
         self.name = name or 'Agent'
         self.config_path = config_path or None
@@ -41,7 +39,7 @@ class Agent:
 
         self.prompt = PromptTemplate.from_template(TEMPLATE)
 
-        self._llm = llm
+        self._llm: BaseLLM = llm
         self._plugins = plugins or []
 
 
@@ -54,13 +52,16 @@ class Agent:
         """Build prompt"""
         system, template = '', ''
         for plugin in self._plugins:
-            system += Message.to_str(plugin.build_system_prompt(messages))
-            template += Message.to_str(plugin.build_template_prompt(messages))
+            temp_system = Message.to_str(plugin.build_system_prompt(messages))
+            system += '\n' + temp_system if temp_system else ''
+            temp_template = Message.to_str(plugin.build_template_prompt(messages))
+            template += '\n' + temp_template if temp_template else ''
 
         return self.prompt.format(
             system=system,
             template=template,
-            chat_history=Message.to_str(messages)
+            chat_history=Message.to_str(messages),
+            role_assistant=self.role_assistant,
         )
 
     @classmethod
@@ -70,6 +71,14 @@ class Agent:
             raise ValueError('LLM name not found')
         if data['name'] == 'openai':
             return OpenAI(openai_api_key=data['api_key'])
+        if data['name'] == 'azure':
+            return AzureOpenAI(
+                openai_api_type='azure',
+                openai_api_version=data['api_version'],
+                openai_api_key=data['api_key'],
+                openai_api_base=data['api_base'],
+                deployment_name=data['deployment_name']
+            )
         raise ValueError(f'LLM {data["name"]} not found')
 
     @classmethod
@@ -95,21 +104,21 @@ class Agent:
             plugins.append(plugin)
         return plugins
 
-    def chat(self, messages: List[Message]) -> str:
+    def chat(self, messages: List[Message]) -> Tuple[str, str]:
         """Chat with the agent"""
         prompt = self._build_prompt(messages)
-        response = self._llm(prompt)
-        return response
+        response = self._llm(prompt, stop='\n')
+        return prompt, response
 
     async def handle(self, request: Request):
         """Handle the request"""
         data = await request.json()
-        messages = data['messages']
+        messages = data.get('messages', [])
         if isinstance(messages, list):
             messages = Message.from_list(messages)
         else:
             messages = [Message.from_str(messages)]
-        result = self.chat(messages)
+        _, result = self.chat(messages)
         return {"result": result}
 
     @classmethod

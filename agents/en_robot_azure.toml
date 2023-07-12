@@ -1,0 +1,18 @@
+[profile]
+name = 'Robot'
+router = '/chat_azure'
+
+[llm]
+name = 'azure'
+api_version = '2023-03-15-preview'
+deployment_name = 'gpt-35-turbo'
+api_base = '<your api base>'
+api_key = '<your api key>'
+
+[[plugins]]
+name = 'system'
+prompt = "You are a robot. You must answer questions."
+
+[[plugins]]
+name = 'character-common'
+lang = 'en'

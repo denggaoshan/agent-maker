@@ -60,19 +60,29 @@ curl --location 'http://127.0.0.1:5000/chat' \
 {"result":" Hi there! How may I help you?"}
 ```
 
+![图片](./docs/imgs/api_demo.jpg)
+
 # 如何用web模式运行
 
 ```
 streamlit run web.py
 ```
 
-
-
 # 效果演示
-
 
 ![demo](./docs/imgs/waiter_demo_cn.jpg)
 
+# LLM系统
+
+目前支持openai接口，以及azure的接口
+
+## OpenAI接口
+
+[配置示例](./agents/cn_robot.toml)
+
+## Azure接口
+
+[配置示例](./agents/cn_robot_azure.toml)
 
 # 插件系统
 
@@ -90,8 +100,6 @@ streamlit run web.py
 2.机器人的规则
 
 
-
-
 ## Template插件
 
 
@@ -99,9 +107,19 @@ streamlit run web.py
 模板插件可以用于自定义机器人的对话模板，它将引导机器人根据模板生成响应。
 
 
+## Character Commmon 插件
+
+强化Agent对于自己的身份认知，避免Agent被套话，比如你是Gpt这种问题，举例：
+
+[配置示例](./agents/cn_robot_azure.toml)
+
+![回答](./docs/imgs/cn_charactor.jpg)
+
+![回答](./docs/imgs/cn_charactor_gpt.jpg)
+
+
 
 ## Retriever插件
-
 
 
 Retriever插件将通过一些数据源生成prompt，例如：
