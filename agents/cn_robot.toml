@@ -1,11 +1,7 @@
 [profile]
-name = 'Tom'
-router = '/chat'
+name = '老李'
+router = '/li'
 
 [llm]
 name = 'openai'
 api_key = '<your-openai-api-key>'
-
-[[plugins]]
-name = 'system'
-prompt = "You are a robot. You must answer questions."
