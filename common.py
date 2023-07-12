@@ -1,5 +1,5 @@
 """Common classes"""
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 class Message:
     """Chat message"""
@@ -30,7 +30,7 @@ class Message:
             return Message(speaker=speaker, content=content, is_user=is_user)
         return Message(content=message, is_user=is_user)
 
-    def get_chat_message(self) -> (str, str):
+    def get_chat_message(self) -> Tuple[str, str]:
         """Get chat message"""
         if self.is_user:
             return 'user', self.content

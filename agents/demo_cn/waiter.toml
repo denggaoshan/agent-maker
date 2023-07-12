@@ -1,6 +1,7 @@
 [profile]
 name = '餐厅服务员'
 router = '/waiter_cn'
+greeting = '欢迎光临品味湘厨私房菜，请问有什么需要可以帮您？'
 
 [llm]
 name = 'openai'

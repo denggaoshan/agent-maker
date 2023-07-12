@@ -70,6 +70,9 @@ class Agent:
         if 'name' not in data:
             raise ValueError('LLM name not found')
         if data['name'] == 'openai':
+            api_key = data.get('api_key')
+            if api_key is None or api_key == '<your-openai-api-key>':
+                return OpenAI()
             return OpenAI(openai_api_key=data['api_key'])
         if data['name'] == 'azure':
             return AzureOpenAI(
@@ -134,5 +137,5 @@ class Agent:
             greeting=toml_data['profile'].get('greeting'),
             router=toml_data['profile'].get('router'),
             llm=cls._load_llm(toml_data['llm']),
-            plugins=cls._load_plugins(toml_data['plugins'])
+            plugins=cls._load_plugins(toml_data.get('plugins', []))
         )

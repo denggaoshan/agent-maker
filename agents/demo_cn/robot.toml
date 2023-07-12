@@ -1,6 +1,7 @@
 [profile]
 name = '老李'
 router = '/li'
+greeting = '你好，我是老李！'
 
 [llm]
 name = 'openai'

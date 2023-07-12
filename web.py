@@ -10,16 +10,22 @@ st.set_page_config(
     layout='wide'
 )
 
+selected_dir = st.sidebar.selectbox(
+    'Select a directory',
+    options=[dir for dir in os.listdir('./agents') if os.path.isdir(f'./agents/{dir}')]
+)
 
 selected = st.sidebar.selectbox(
     'Select a robot',
-    options=[robot[:-5] for robot in os.listdir('./agents') if robot.endswith('.toml')]
+    options=[robot[:-5] for robot in os.listdir(f'./agents/{selected_dir}') if robot.endswith('.toml')]
 )
 
+toml_path = os.path.join(f'./agents/{selected_dir}', f'{selected}.toml')
+
 # Reload the agent only if the user selects a different agent
-if "agent" not in st.session_state or st.session_state.agent.config_path != f'./agents/{selected}.toml':
+if "agent" not in st.session_state or st.session_state.agent.config_path != toml_path:
     st.session_state.clear()
-    st.session_state.agent = Agent.build_from_toml(f'./agents/{selected}.toml')
+    st.session_state.agent = Agent.build_from_toml(toml_path)
 
     with open(st.session_state.agent.config_path, 'r', encoding='utf-8') as f:
         st.sidebar.code(f.read())

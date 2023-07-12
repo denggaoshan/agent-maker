@@ -8,7 +8,8 @@
 
 # 说明
 
-我们目前不提供大模型服务，目前支持openai（需要科学上网）和azure接口，自己去弄api_key，或者自己搭建大模型服务然后接入（TODO）
+我们目前不提供大模型服务，目前支持openai（需要科学上网）和azure接口，自己去弄api_key。
+或者自己搭建大模型服务然后接入（TODO）
 
 # 安装要求
 ```
@@ -17,7 +18,7 @@ pip install -r requirements.txt
 
 # 开始制作第一个Agent
 
-[示例1](./agents/cn_robot.toml)
+[示例1](./agents/demo_cn/robot.toml)
 
 ```
 [profile]
@@ -54,7 +55,12 @@ streamlit run web.py
 
 ## OpenAI接口
 
-[配置示例](./agents/cn_robot.toml)
+可以填写API KEY，也可以提前导入环境变量：
+```
+export OPENAI_API_KEY='<your-openai-api-key>'
+```
+
+[配置示例](./agents/demo_cn/robot.toml)
 
 ```
 [profile]
@@ -68,7 +74,8 @@ api_key = '<your-openai-api-key>'
 
 ## Azure接口
 
-[配置示例](./agents/cn_robot_azure.toml)
+[配置示例](./agents/demo_cn/robot_azure.toml)
+
 
 ```
 [profile]
@@ -106,7 +113,7 @@ name = 'character-common'
 
 强化Agent对于自己的身份认知，避免Agent被套话，比如你是Gpt这种问题，举例：
 
-[配置示例](./agents/cn_robot_azure.toml)
+[配置示例](./agents/demo_cn/robot_azure.toml)
 
 ![回答](./docs/imgs/cn_charactor.jpg)
 
